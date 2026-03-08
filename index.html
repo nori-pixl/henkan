@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単位変換ツール</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; color: #666; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
+        .result-area { text-align: center; background: #eef9f5; padding: 20px; border-radius: 8px; border: 1px solid #d1e7dd; }
+        .result-value { display: block; font-size: 2rem; font-weight: bold; color: #198754; }
+        .result-unit { color: #666; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>単位変換</h2>
+
+    <!-- 1. 変換の種類を選ぶ -->
+    <div class="input-group">
+        <label>変換したいもの</label>
+        <select id="mode" onchange="convert()">
+            <option value="g-kg">重さ：g ➡ kg</option>
+            <option value="kg-g">重さ：kg ➡ g</option>
+            <option value="cm-m">長さ：cm ➡ m</option>
+            <option value="m-km">長さ：m ➡ km</option>
+            <option value="ml-l">容量：ml ➡ L</option>
+        </select>
+    </div>
+
+    <!-- 2. 数値を入力する -->
+    <div class="input-group">
+        <label id="inputLabel">数値を入力</label>
+        <input type="number" id="userInput" placeholder="例: 1000" oninput="convert()">
+    </div>
+
+    <!-- 3. 結果を表示する -->
+    <div class="result-area">
+        <span class="result-value" id="resultDisplay">1</span>
+        <span class="result-unit" id="unitDisplay">キログラム(kg)</span>
+    </div>
+</div>
+
+<script>
+function convert() {
+    const mode = document.getElementById('mode').value;
+    const input = parseFloat(document.getElementById('userInput').value) || 0;
+    let result = 0;
+    let unitText = "";
+
+    // 選んだモードによって計算を分岐させる
+    switch (mode) {
+        case 'g-kg':
+            result = input / 1000;
+            unitText = "キログラム(kg)";
+            break;
+        case 'kg-g':
+            result = input * 1000;
+            unitText = "グラム(g)";
+            break;
+        case 'cm-m':
+            result = input / 100;
+            unitText = "メートル(m)";
+            break;
+        case 'm-km':
+            result = input / 1000;
+            unitText = "キロメートル(km)";
+            break;
+        case 'ml-l':
+            result = input / 1000;
+            unitText = "リットル(L)";
+            break;
+    }
+
+    // 画面に反映
+    document.getElementById('resultDisplay').textContent = result.toLocaleString();
+    document.getElementById('unitDisplay').textContent = unitText;
+}
+</script>
+
+</body>
+</html>
